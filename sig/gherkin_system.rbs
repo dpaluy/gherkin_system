@@ -1,0 +1,64 @@
+module GherkinSystem
+  VERSION: String
+
+  def self.config: () -> Configuration
+  def self.configure: () { (Configuration) -> void } -> void
+  def self.reset_configuration!: () -> void
+  def self.load!: (?String glob, ?base: Class?) -> Array[Class]
+  def self.step_registry: () -> StepRegistry
+  def self.parameter_registry: () -> ParameterRegistry
+  def self.hook_registry: () -> HookRegistry
+
+  class Configuration
+    attr_reader step_modules: Array[Module]
+    attr_writer features: String
+    attr_writer base_test_class: Class?
+    attr_writer strict: bool
+    attr_writer test_file: String
+
+    def features: () -> String
+    def base_test_class: () -> Class?
+    def strict: () -> bool
+    def test_file: () -> String
+    def tags: () -> String?
+    def tags=: (String?) -> void
+    def include_steps: (Module) -> void
+  end
+
+  class Error < StandardError
+  end
+
+  class ConfigurationError < Error
+  end
+
+  class CompilationError < Error
+  end
+
+  class DuplicateStep < Error
+  end
+
+  class UndefinedStep < Error
+  end
+
+  class AmbiguousStep < Error
+  end
+
+  class StepFailure < Error
+    attr_reader cause: Exception
+  end
+
+  class DataTable
+    def initialize: (Array[Array[String]]) -> void
+    def raw: () -> Array[Array[String]]
+    def hashes: () -> Array[Hash[String, String]]
+  end
+
+  class Checker
+    def self.call: (?String? glob) -> Result
+
+    class Result
+      def ok?: () -> bool
+      def report: () -> String
+    end
+  end
+end
