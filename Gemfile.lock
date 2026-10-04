@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     gherkin_system (0.1.0)
-      cucumber-cucumber-expressions (>= 17, < 20)
+      cucumber-cucumber-expressions (>= 17, < 21)
       cucumber-gherkin (>= 28, < 40)
       cucumber-tag-expressions (>= 6, < 9)
 
@@ -101,7 +101,7 @@ GEM
     concurrent-ruby (1.3.8)
     connection_pool (3.0.2)
     crass (1.0.7)
-    cucumber-cucumber-expressions (19.0.1)
+    cucumber-cucumber-expressions (20.1.0)
       bigdecimal
     cucumber-gherkin (39.1.0)
       cucumber-messages (>= 31, < 33)
@@ -317,7 +317,7 @@ CHECKSUMS
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
-  cucumber-cucumber-expressions (19.0.1) sha256=648ec09045190d818fb797af46e1648148599fd67a086a34a7f0e647d9e36c8c
+  cucumber-cucumber-expressions (20.1.0) sha256=6cc4b5880ba1c3991292579d0451af0f44814f5a1a13d7823317a09705eb15d4
   cucumber-gherkin (39.1.0) sha256=aed12a0c955d8563d80a012633c1a72075525f4d64d4cc983001df2181b379ed
   cucumber-messages (32.3.1) sha256=ddc88e4c1cf7afb96c06005b92a4a6f221a2fa435a8b4ca04677d215fd82771c
   cucumber-tag-expressions (8.1.0) sha256=9bd8c4b6654f8e5bf2a9c99329b6f32136a75e50cd39d4cfb3927d0fa9f52e21
