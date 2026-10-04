@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `StepFailure` subclasses `Minitest::Assertion` so Capybara and other step errors report as Failures
 - Failure messages include `bin/rails gherkin path/to.feature:LINE` for rerun
 - Directory paths in `bin/rails gherkin PATH` select features under that directory; unmatched path/line filters raise instead of compiling nothing
+- Nested step generators create the enclosing namespaces, so generated files load without existing modules
+- Step skips remain Minitest skips, and wrapped failures appear in Minitest summary counts
+- Generator tests remove their temporary Ruby files after each test, so test order cannot cause RuboCop failures
 
 ## [0.1.0] - 2026-10-03
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "stringio"
 
 class ExecutorTest < GherkinSystemTest
   class OrderCase < Minitest::Test
@@ -207,7 +208,62 @@ class ExecutorTest < GherkinSystemTest
     assert_kind_of GherkinSystem::StepFailure, test.failures.first
   end
 
+  def test_skipped_step_remains_a_skip_in_the_reporter
+    result = reported_step { skip "not available" }
+    output = StringIO.new
+    reporter = Minitest::SummaryReporter.new(output)
+    reporter.start
+    reporter.record(result)
+    reporter.report
+
+    assert_instance_of Minitest::Skip, result.failure
+    assert_equal "not available", result.failure.message
+    assert_equal "S", result.result_code
+    assert reporter.passed?
+    assert_includes output.string, "0 failures, 0 errors, 1 skips"
+  end
+
+  def test_reporter_counts_wrapped_and_native_failures
+    output = StringIO.new
+    reporter = Minitest::SummaryReporter.new(output)
+    reporter.start
+    reporter.record(reported_step { flunk "assertion failed" })
+    reporter.record(reported_step { raise "runtime failed" })
+    native_case = Class.new(Minitest::Test) do
+      def test_assertion = flunk "native assertion"
+      def test_error = raise "native error"
+      def test_skip = skip "native skip"
+    end
+    %w[test_assertion test_error test_skip].each do |name|
+      reporter.record(native_case.new(name).run)
+    end
+    reporter.report
+
+    refute reporter.passed?
+    assert_includes output.string, "3 failures, 1 errors, 1 skips"
+    assert_includes output.string, "assertion failed"
+    assert_includes output.string, "runtime failed"
+    assert_includes output.string, "Step definition:"
+  end
+
   private
+
+  def reported_step(&block)
+    GherkinSystem.reset_configuration!
+    dir = write_features("report.feature" => <<~FEATURE)
+      Feature: Reporting
+
+        Scenario: Step result
+          Given a reported step
+    FEATURE
+    Module.new do
+      extend GherkinSystem::Steps
+
+      Given("a reported step", &block)
+    end
+    klass = load_features(dir, base: OrderCase).first
+    klass.new(scenario_methods(klass).first).run
+  end
 
   def register_account_steps
     Module.new do

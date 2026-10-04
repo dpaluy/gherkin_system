@@ -73,7 +73,7 @@ module GherkinSystem
     def run_step(step)
       definition = registry.resolve(step, @scenario)
       @test.instance_exec(*arguments(definition, step), &definition.block)
-    rescue UndefinedStep, AmbiguousStep
+    rescue UndefinedStep, AmbiguousStep, Minitest::Skip
       raise
     rescue Minitest::Assertion, StandardError => e
       raise StepFailure.new(@scenario, step, definition, e)
