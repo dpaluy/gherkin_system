@@ -1,0 +1,3 @@
+Feature: <%= human_name %>
+
+  Scenario: Replace with the condition and result

@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+module <%= class_name %>Steps
+  extend GherkinSystem::Steps
+
+  # Given("…") do
+  # end
+end

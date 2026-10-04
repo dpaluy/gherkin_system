@@ -26,6 +26,9 @@ module Rails
       def list(*args)
         prepare!(args)
         scenarios.each { |scenario| puts scenario_line(scenario) }
+      rescue GherkinSystem::Error => e
+        warn e.message
+        exit!(1)
       end
 
       private
