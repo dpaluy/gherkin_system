@@ -39,6 +39,6 @@ Gem::Specification.new do |spec|
   spec.extra_rdoc_files = Dir["README.md", "CHANGELOG.md", "LICENSE.txt"]
 
   spec.add_dependency "cucumber-cucumber-expressions", ">= 17", "< 21"
-  spec.add_dependency "cucumber-gherkin", ">= 28", "< 40"
+  spec.add_dependency "cucumber-gherkin", ">= 28", "< 43"
   spec.add_dependency "cucumber-tag-expressions", ">= 6", "< 12"
 end

@@ -3,7 +3,7 @@ PATH
   specs:
     gherkin_system (0.1.0)
       cucumber-cucumber-expressions (>= 17, < 21)
-      cucumber-gherkin (>= 28, < 40)
+      cucumber-gherkin (>= 28, < 43)
       cucumber-tag-expressions (>= 6, < 12)
 
 GEM
@@ -103,7 +103,7 @@ GEM
     crass (1.0.7)
     cucumber-cucumber-expressions (20.1.0)
       bigdecimal
-    cucumber-gherkin (39.1.0)
+    cucumber-gherkin (41.0.0)
       cucumber-messages (>= 31, < 33)
     cucumber-messages (32.3.1)
     cucumber-tag-expressions (11.0.1)
@@ -318,7 +318,7 @@ CHECKSUMS
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
   cucumber-cucumber-expressions (20.1.0) sha256=6cc4b5880ba1c3991292579d0451af0f44814f5a1a13d7823317a09705eb15d4
-  cucumber-gherkin (39.1.0) sha256=aed12a0c955d8563d80a012633c1a72075525f4d64d4cc983001df2181b379ed
+  cucumber-gherkin (41.0.0) sha256=2e007dfa8f7d86d7fdda67ad8aaef7521f42e10c82c6bf111214fe6a623cebb1
   cucumber-messages (32.3.1) sha256=ddc88e4c1cf7afb96c06005b92a4a6f221a2fa435a8b4ca04677d215fd82771c
   cucumber-tag-expressions (11.0.1) sha256=ead62a1c6bb613de1f5469975a9dd11ba2ced7322a6c8837cdde9db33dcbeac5
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
