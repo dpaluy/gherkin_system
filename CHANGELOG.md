@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Nested step generators create the enclosing namespaces, so generated files load without existing modules
+- Step skips remain Minitest skips, and wrapped failures appear in Minitest summary counts
 - Step assertion failures (`flunk` / `assert`) now wrap in `StepFailure` with feature, step, and line
 - `StepFailure` subclasses `Minitest::Assertion` so Capybara and other step errors report as Failures
 - Failure messages include `bin/rails gherkin path/to.feature:LINE` for rerun

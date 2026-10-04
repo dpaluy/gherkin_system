@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
-module <%= class_name %>Steps
-  extend GherkinSystem::Steps
+<% namespaces = class_name.split("::")[0...-1] -%>
+<% namespaces.each_with_index do |namespace, index| -%>
+<%= "  " * index %>module <%= namespace %>
+<% end -%>
+<%= "  " * namespaces.size %>module <%= class_name.demodulize %>Steps
+<%= "  " * namespaces.size %>  extend GherkinSystem::Steps
 
-  # Given("…") do
-  # end
-end
+<%= "  " * namespaces.size %>  # Given("…") do
+<%= "  " * namespaces.size %>  # end
+<%= "  " * namespaces.size %>end
+<% namespaces.size.times.reverse_each do |index| -%>
+<%= "  " * index %>end
+<% end -%>

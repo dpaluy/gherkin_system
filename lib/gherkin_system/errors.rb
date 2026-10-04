@@ -138,4 +138,14 @@ module GherkinSystem
       ].join("\n")
     end
   end
+
+  # Minitest counts exact exception classes. Include our assertion subclass.
+  module StepFailureReporting
+    def report
+      super
+      self.failures += results.count { |result| result.failure.is_a?(StepFailure) }
+    end
+  end
 end
+
+Minitest::StatisticsReporter.prepend(GherkinSystem::StepFailureReporting)
