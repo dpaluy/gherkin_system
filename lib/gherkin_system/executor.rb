@@ -54,7 +54,7 @@ module GherkinSystem
       run_before
       run_steps
       @run.status = :passed
-    rescue StandardError => e
+    rescue Minitest::Assertion, StandardError => e
       @run.status = :failed
       @run.exception = e
       raise
@@ -75,7 +75,7 @@ module GherkinSystem
       @test.instance_exec(*arguments(definition, step), &definition.block)
     rescue UndefinedStep, AmbiguousStep
       raise
-    rescue StandardError => e
+    rescue Minitest::Assertion, StandardError => e
       raise StepFailure.new(@scenario, step, definition, e)
     end
 

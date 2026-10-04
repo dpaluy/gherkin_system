@@ -145,8 +145,11 @@ class ExecutorTest < GherkinSystemTest
     FEATURE
     register_checkout_steps
     klass = load_features(dir, base: OrderCase).first
-    message = run_scenario(klass).failures.first.message
+    failure = run_scenario(klass).failures.first
+    message = failure.message
 
+    assert_kind_of Minitest::Assertion, failure
+    assert_kind_of GherkinSystem::StepFailure, failure
     assert_includes message, "Checkout"
     assert_includes message, "Customer purchases Pro"
     assert_includes message, "the order should be paid"
@@ -154,6 +157,54 @@ class ExecutorTest < GherkinSystemTest
     assert_includes message, "Expected Order#paid? to be truthy."
     assert_includes message, "Step definition:"
     assert_match(/executor_test\.rb:\d+/, message)
+    assert_includes message, "bin/rails gherkin"
+    assert_includes message, "checkout.feature:3"
+  end
+
+  def test_assertion_failures_include_gherkin_context
+    dir = write_features("checkout.feature" => <<~FEATURE)
+      Feature: Checkout
+
+        Scenario: Customer purchases Pro
+          Then the order should be paid
+    FEATURE
+    Module.new do
+      extend GherkinSystem::Steps
+
+      Then("the order should be paid") { flunk "Expected Order#paid? to be truthy." }
+    end
+    klass = load_features(dir, base: OrderCase).first
+    failure = run_scenario(klass).failures.first
+    message = failure.message
+
+    assert_kind_of GherkinSystem::StepFailure, failure
+    assert_kind_of Minitest::Assertion, failure.cause
+    assert_includes message, "Checkout"
+    assert_includes message, "the order should be paid"
+    assert_includes message, "checkout.feature:"
+    assert_includes message, "Expected Order#paid? to be truthy."
+    assert_includes message, "bin/rails gherkin"
+  end
+
+  def test_after_hook_sees_failed_status_for_assertion
+    dir = write_features("hooks.feature" => <<~FEATURE)
+      Feature: Hooks
+
+        Scenario: Broken assert
+          Given a flunking step
+    FEATURE
+    Module.new do
+      extend GherkinSystem::Steps
+      extend GherkinSystem::Hooks
+
+      After { |scenario| @events = [scenario.status] }
+      Given("a flunking step") { flunk "nope" }
+    end
+    klass = load_features(dir, base: OrderCase).first
+    test = run_scenario(klass)
+
+    assert_equal [:failed], test.instance_variable_get(:@events)
+    assert_kind_of GherkinSystem::StepFailure, test.failures.first
   end
 
   private

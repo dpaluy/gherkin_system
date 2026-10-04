@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "minitest"
+
 module GherkinSystem
   # Base error for gherkin_system failures.
   class Error < StandardError; end
@@ -12,6 +14,46 @@ module GherkinSystem
 
   # Raised when the same step pattern is registered twice.
   class DuplicateStep < Error; end
+
+  # Formats a bin/rails gherkin rerun hint for a scenario location.
+  module Rerun
+    module_function
+
+    # @param scenario [Scenario]
+    # @param line [Integer, nil]
+    # @return [Array<String>]
+    def footer(scenario, line = scenario.line)
+      ["", "Rerun:", "  bin/rails gherkin #{location(scenario, line)}"]
+    end
+
+    # @param scenario [Scenario]
+    # @param line [Integer, nil]
+    # @return [String]
+    def location(scenario, line = scenario.line)
+      "#{display_path(scenario.uri)}:#{line}"
+    end
+
+    # @param uri [String]
+    # @return [String]
+    def display_path(uri)
+      path = uri.to_s
+      root = project_root
+      return path if root.nil? || root.empty?
+
+      absolute = File.expand_path(path)
+      prefix = "#{File.expand_path(root)}/"
+      return absolute.delete_prefix(prefix) if absolute.start_with?(prefix)
+
+      path
+    end
+
+    # @return [String, nil]
+    def project_root
+      return Rails.root.to_s if defined?(Rails) && Rails.respond_to?(:root) && Rails.root
+
+      Dir.pwd
+    end
+  end
 
   # Raised when no step definition matches.
   class UndefinedStep < Error
@@ -27,11 +69,12 @@ module GherkinSystem
         "",
         "  #{step.keyword} #{step.text}",
         "",
-        "#{scenario.uri}:#{step.line}",
+        "#{Rerun.display_path(scenario.uri)}:#{step.line}",
         "",
         "Suggested definition:",
         "",
-        Snippet.for(step)
+        Snippet.for(step),
+        *Rerun.footer(scenario)
       ].join("\n")
     end
   end
@@ -52,16 +95,18 @@ module GherkinSystem
         "",
         "  #{step.keyword} #{step.text}",
         "",
-        "#{scenario.uri}:#{step.line}",
+        "#{Rerun.display_path(scenario.uri)}:#{step.line}",
         "",
         "Matching definitions:",
-        *locations
+        *locations,
+        *Rerun.footer(scenario)
       ].join("\n")
     end
   end
 
   # Wraps a step exception with the feature and definition locations.
-  class StepFailure < Error
+  # Subclasses Minitest::Assertion so wrapped failures report as Failures.
+  class StepFailure < Minitest::Assertion
     # @return [Exception] the original failure
     attr_reader :cause
 
@@ -83,12 +128,13 @@ module GherkinSystem
         "FAILED",
         "",
         "#{step.keyword} #{step.text}",
-        "#{scenario.uri}:#{step.line}",
+        "#{Rerun.display_path(scenario.uri)}:#{step.line}",
         "",
         cause.message.to_s,
         "",
         "Step definition:",
-        definition.location_label
+        definition.location_label,
+        *Rerun.footer(scenario)
       ].join("\n")
     end
   end

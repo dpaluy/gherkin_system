@@ -13,6 +13,15 @@ Gherkin describes behavior. Rails owns execution. Each scenario becomes a Minite
 gem "gherkin_system"
 ```
 
+```sh
+bundle install
+bin/rails g gherkin_system:install
+bin/rails g gherkin_system:feature checkout
+bin/rails g gherkin_system:steps checkout
+```
+
+`install` creates `test/system/gherkin_test.rb`, `features/system/`, and `test/support/gherkin/`. `feature` and `steps` add a `.feature` file and a steps module; wire the module into the loader with `require_relative` and `config.include_steps`.
+
 ## Agent skill
 
 For agents writing Gherkin scenarios in a Rails app, install the skill with [`npx skills`](https://www.skills.sh/docs/cli):
@@ -25,15 +34,23 @@ Use `-g` for a global install, `-a` to target specific agents, and `-y` to skip 
 
 ## Configuration
 
+Configure in the loader created by the install generator:
+
 ```ruby
-# config/initializers/gherkin_system.rb
+# test/system/gherkin_test.rb
+require "application_system_test_case"
+require "gherkin_system/rails"
+
 GherkinSystem.configure do |config|
   config.features = Rails.root.join("features/system/**/*.feature")
-  config.base_test_class = ApplicationSystemTestCase
   config.include_steps AuthenticationSteps
   config.strict = true
 end
+
+GherkinSystem.load!(base: ApplicationSystemTestCase)
 ```
+
+Generated tests subclass the class you pass. The gem does not install its own system-test superclass.
 
 | Option | ENV variable | Default |
 | --- | --- | --- |
@@ -50,18 +67,6 @@ GHERKIN_TAGS="@critical and not @slow" bin/rails test:system
 ```
 
 Same filter via the CLI: `bin/rails gherkin --tags "@critical and not @slow"` (sets `GHERKIN_TAGS` for that run). Leave it unset to compile every scenario. If the env var stays set, later `bin/rails test:system` runs keep the filter.
-
-## Rails setup
-
-```ruby
-# test/system/gherkin_test.rb
-require "application_system_test_case"
-require "gherkin_system/rails"
-
-GherkinSystem.load!(base: ApplicationSystemTestCase)
-```
-
-Generated tests subclass the class you pass. The gem does not install its own system-test superclass.
 
 ## Steps
 
@@ -120,12 +125,15 @@ Rails `setup` runs first. Gherkin hooks and steps run inside the test method. Ra
 
 ```sh
 bin/rails gherkin
+bin/rails gherkin features/system
 bin/rails gherkin features/system/checkout.feature
 bin/rails gherkin features/system/checkout.feature:42
 bin/rails gherkin --tags "@critical and not @slow"
 bin/rails gherkin:check
 bin/rails gherkin:list
 ```
+
+A directory path selects every feature under that directory. A path or line filter that matches nothing raises instead of running an empty suite.
 
 `gherkin:check` parses features and resolves steps. It does not start a browser. `bin/rails test:system` and `bin/rails test:all` run the generated tests as normal Minitest tests.
 
@@ -150,7 +158,7 @@ end
 | `UndefinedStep` | No definition matches the step |
 | `AmbiguousStep` | More than one definition matches |
 | `DuplicateStep` | The same pattern is registered twice |
-| `StepFailure` | A step raised. `cause` is the original exception |
+| `StepFailure` | A step raised (`Minitest::Assertion`). `cause` is the original exception. Message includes feature, step, line, and `bin/rails gherkin …` rerun |
 
 Undefined and ambiguous steps raise in `before_setup`, before the driver starts. The message names the feature, scenario, step, feature line, and a suggested definition.
 

@@ -43,7 +43,7 @@ module GherkinSystem
   class AmbiguousStep < Error
   end
 
-  class StepFailure < Error
+  class StepFailure < ::Minitest::Assertion
     attr_reader cause: Exception
   end
 
