@@ -40,5 +40,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "cucumber-cucumber-expressions", ">= 17", "< 20"
   spec.add_dependency "cucumber-gherkin", ">= 28", "< 40"
-  spec.add_dependency "cucumber-tag-expressions", ">= 6", "< 9"
+  spec.add_dependency "cucumber-tag-expressions", ">= 6", "< 12"
 end
