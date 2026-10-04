@@ -14,6 +14,10 @@ class InstallGeneratorTest < Rails::Generators::TestCase
     prepare_destination
   end
 
+  teardown do
+    FileUtils.rm_rf(destination_root)
+  end
+
   def test_creates_loader_features_and_steps_directories
     run_generator
 
