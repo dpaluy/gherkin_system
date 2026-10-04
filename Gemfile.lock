@@ -4,7 +4,7 @@ PATH
     gherkin_system (0.1.0)
       cucumber-cucumber-expressions (>= 17, < 21)
       cucumber-gherkin (>= 28, < 40)
-      cucumber-tag-expressions (>= 6, < 9)
+      cucumber-tag-expressions (>= 6, < 12)
 
 GEM
   remote: https://rubygems.org/
@@ -106,7 +106,7 @@ GEM
     cucumber-gherkin (39.1.0)
       cucumber-messages (>= 31, < 33)
     cucumber-messages (32.3.1)
-    cucumber-tag-expressions (8.1.0)
+    cucumber-tag-expressions (11.0.1)
     date (3.5.1)
     drb (2.2.3)
     erb (6.0.7)
@@ -320,7 +320,7 @@ CHECKSUMS
   cucumber-cucumber-expressions (20.1.0) sha256=6cc4b5880ba1c3991292579d0451af0f44814f5a1a13d7823317a09705eb15d4
   cucumber-gherkin (39.1.0) sha256=aed12a0c955d8563d80a012633c1a72075525f4d64d4cc983001df2181b379ed
   cucumber-messages (32.3.1) sha256=ddc88e4c1cf7afb96c06005b92a4a6f221a2fa435a8b4ca04677d215fd82771c
-  cucumber-tag-expressions (8.1.0) sha256=9bd8c4b6654f8e5bf2a9c99329b6f32136a75e50cd39d4cfb3927d0fa9f52e21
+  cucumber-tag-expressions (11.0.1) sha256=ead62a1c6bb613de1f5469975a9dd11ba2ced7322a6c8837cdde9db33dcbeac5
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
