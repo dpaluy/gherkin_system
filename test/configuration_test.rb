@@ -13,7 +13,7 @@ class ConfigurationTest < GherkinSystemTest
     assert_nil GherkinSystem.config.tags
   end
 
-  def test_default_features_use_the_system_convention
-    assert_equal File.join(Dir.pwd, "features/system/**/*.feature"), GherkinSystem.config.features
+  def test_default_features_use_the_features_directory
+    assert_equal File.join(Dir.pwd, "features/**/*.feature"), GherkinSystem.config.features
   end
 end

@@ -52,7 +52,7 @@ module GherkinSystem
     private
 
     def default_features
-      File.join(root.to_s, "features/system/**/*.feature")
+      File.join(root.to_s, "features/**/*.feature")
     end
 
     def root
