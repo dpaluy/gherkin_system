@@ -15,9 +15,9 @@ gem "gherkin_system"
 
 ```sh
 bundle install
-bin/rails g gherkin_system:install
-bin/rails g gherkin_system:feature checkout
-bin/rails g gherkin_system:steps checkout
+bin/rails g gherkin:install
+bin/rails g gherkin:feature checkout
+bin/rails g gherkin:steps checkout
 ```
 
 `install` creates `test/system/gherkin_test.rb`, `features/`, and `test/support/gherkin/`. `feature` and `steps` add a `.feature` file and a steps module; wire the module into the loader with `require_relative` and `config.include_steps`.

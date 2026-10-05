@@ -4,10 +4,10 @@ require "test_helper"
 require "rails"
 require "rails/generators"
 require "rails/generators/test_case"
-require "generators/gherkin_system/feature/feature_generator"
+require "generators/gherkin/feature/feature_generator"
 
 class FeatureGeneratorTest < Rails::Generators::TestCase
-  tests GherkinSystem::Generators::FeatureGenerator
+  tests Gherkin::Generators::FeatureGenerator
   destination File.expand_path("../tmp/generator", __dir__)
   arguments %w[checkout]
 
