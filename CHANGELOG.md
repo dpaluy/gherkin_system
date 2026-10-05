@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-04
+
+### Changed
+
+- Generator commands use `gherkin:install`, `gherkin:feature NAME`, and `gherkin:steps NAME`, matching the existing `rails gherkin` commands
+- README and application skill use the shorter generator namespace
+- Existing `gherkin_system:` generator commands remain available for compatibility
+
 ## [0.2.0] - 2026-10-04
 
 ### Changed

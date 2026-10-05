@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
-require "rails/generators"
+require "generators/gherkin/feature/feature_generator"
 
 module GherkinSystem
   module Generators
-    # Creates a Gherkin feature under features.
-    class FeatureGenerator < Rails::Generators::NamedBase
-      source_root File.expand_path("templates", __dir__)
-
-      desc "Creates a Gherkin feature file under features"
-
-      def create_feature
-        template "feature.feature.tt", File.join("features", "#{file_path}.feature")
-      end
+    # Keeps the original generator command available.
+    class FeatureGenerator < Gherkin::Generators::FeatureGenerator
+      source_root Gherkin::Generators::FeatureGenerator.source_root
     end
   end
 end

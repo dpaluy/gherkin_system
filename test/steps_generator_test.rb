@@ -5,10 +5,10 @@ require "open3"
 require "rails"
 require "rails/generators"
 require "rails/generators/test_case"
-require "generators/gherkin_system/steps/steps_generator"
+require "generators/gherkin/steps/steps_generator"
 
 class StepsGeneratorTest < Rails::Generators::TestCase
-  tests GherkinSystem::Generators::StepsGenerator
+  tests Gherkin::Generators::StepsGenerator
   destination File.expand_path("../tmp/generator", __dir__)
   arguments %w[checkout]
 
