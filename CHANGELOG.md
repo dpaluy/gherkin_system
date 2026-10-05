@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-04
+
+### Added
+
+- `rails g gherkin` runs the install generator, matching `rails g gherkin:install`
+- README and application skill document how to wait for navigation before URL assertions in step definitions
+
 ## [0.3.0] - 2026-10-04
 
 ### Changed
