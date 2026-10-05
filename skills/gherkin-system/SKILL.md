@@ -87,6 +87,25 @@ end
 - Prefer Cucumber Expressions (`{string}`, `{int}`). Use a regex only to match an existing definition.
 - Data tables arrive as an object with `#hashes` (string keys) and `#raw`. Doc strings arrive as the content string.
 
+## Wait for navigation
+
+After a step triggers navigation, assert visible page content or use a Capybara waiting assertion. Do not compare `current_path` directly. A direct comparison does not wait for navigation.
+
+```ruby
+When("I open an order") do
+  click_on "Order details"
+  assert_current_path(/\/orders\/\d+/, url: true)
+end
+
+When("I stay on the orders page") do
+  click_on "Refresh orders"
+  assert_selector "h1", text: "Orders"
+  refute_current_path(/\/orders\/\d+\/details/)
+end
+```
+
+For a negative URL check, first assert content that only the destination page shows. This prevents a check from passing before the browser navigates.
+
 ## Hooks
 
 ```ruby
