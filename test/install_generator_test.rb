@@ -28,7 +28,7 @@ class InstallGeneratorTest < Rails::Generators::TestCase
       assert_match(/GherkinSystem\.load!\(base: ApplicationSystemTestCase\)/, content)
     end
 
-    assert_file "features/system/.keep"
+    assert_file "features/.keep"
     assert_file "test/support/gherkin/.keep"
   end
 

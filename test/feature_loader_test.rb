@@ -3,6 +3,30 @@
 require "test_helper"
 
 class FeatureLoaderTest < GherkinSystemTest
+  def test_default_glob_loads_root_and_existing_system_features
+    dir = Dir.mktmpdir
+    @dirs << dir
+    FileUtils.mkdir_p(File.join(dir, "features", "system"))
+    File.write(File.join(dir, "features", "checkout.feature"), <<~FEATURE)
+      Feature: Checkout
+
+        Scenario: Buy
+          When I buy
+    FEATURE
+    File.write(File.join(dir, "features", "system", "welcome.feature"), <<~FEATURE)
+      Feature: Welcome
+
+        Scenario: Hello
+          When I visit
+    FEATURE
+
+    Dir.chdir(dir) do
+      scenarios = GherkinSystem::FeatureLoader.load
+
+      assert_equal %w[Checkout Welcome], scenarios.map(&:feature_name).sort
+    end
+  end
+
   def test_directory_filter_selects_features_under_the_path
     dir = write_nested_features
     ENV["GHERKIN_FEATURES"] = dir

@@ -14,7 +14,7 @@ Do not add cucumber-rails, a Cucumber World, or a second test runner. Do not use
 
 ## Add a scenario
 
-1. Scaffold with `bin/rails g gherkin_system:feature NAME` and `bin/rails g gherkin_system:steps NAME` (or write the files by hand under `features/system/**/*.feature` and `test/support/gherkin/*_steps.rb`).
+1. Scaffold with `bin/rails g gherkin_system:feature NAME` and `bin/rails g gherkin_system:steps NAME` (or write the files by hand under `features/**/*.feature` and `test/support/gherkin/*_steps.rb`).
 2. Require the steps file from `test/system/gherkin_test.rb` before `GherkinSystem.load!`.
 3. Run `bin/rails gherkin:check`.
 4. Run the scenario with `bin/rails gherkin path/to/file.feature:LINE`.

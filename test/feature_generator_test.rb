@@ -18,7 +18,7 @@ class FeatureGeneratorTest < Rails::Generators::TestCase
   def test_creates_feature_file
     run_generator
 
-    assert_file "features/system/checkout.feature" do |content|
+    assert_file "features/checkout.feature" do |content|
       assert_match(/Feature: Checkout/, content)
       assert_match(/Scenario: Replace with the condition and result/, content)
     end
@@ -27,7 +27,7 @@ class FeatureGeneratorTest < Rails::Generators::TestCase
   def test_creates_nested_feature_file
     run_generator %w[admin/billing]
 
-    assert_file "features/system/admin/billing.feature" do |content|
+    assert_file "features/admin/billing.feature" do |content|
       assert_match(/Feature: Billing/, content)
     end
   end

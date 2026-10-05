@@ -20,7 +20,7 @@ bin/rails g gherkin_system:feature checkout
 bin/rails g gherkin_system:steps checkout
 ```
 
-`install` creates `test/system/gherkin_test.rb`, `features/system/`, and `test/support/gherkin/`. `feature` and `steps` add a `.feature` file and a steps module; wire the module into the loader with `require_relative` and `config.include_steps`.
+`install` creates `test/system/gherkin_test.rb`, `features/`, and `test/support/gherkin/`. `feature` and `steps` add a `.feature` file and a steps module; wire the module into the loader with `require_relative` and `config.include_steps`.
 
 ## Agent skill
 
@@ -42,7 +42,7 @@ require "application_system_test_case"
 require "gherkin_system/rails"
 
 GherkinSystem.configure do |config|
-  config.features = Rails.root.join("features/system/**/*.feature")
+  config.features = Rails.root.join("features/**/*.feature")
   config.include_steps AuthenticationSteps
   config.strict = true
 end
@@ -54,7 +54,7 @@ Generated tests subclass the class you pass. The gem does not install its own sy
 
 | Option | ENV variable | Default |
 | --- | --- | --- |
-| `features` | | `features/system/**/*.feature` |
+| `features` | | `features/**/*.feature` |
 | `tags` | `GHERKIN_TAGS` | unset → every scenario is compiled |
 | `strict` | | `true`. A broken scenario fails itself. The rest still run |
 | `base_test_class` | | required by `load!` when `base:` is omitted |
@@ -125,9 +125,9 @@ Rails `setup` runs first. Gherkin hooks and steps run inside the test method. Ra
 
 ```sh
 bin/rails gherkin
-bin/rails gherkin features/system
-bin/rails gherkin features/system/checkout.feature
-bin/rails gherkin features/system/checkout.feature:42
+bin/rails gherkin features
+bin/rails gherkin features/checkout.feature
+bin/rails gherkin features/checkout.feature:42
 bin/rails gherkin --tags "@critical and not @slow"
 bin/rails gherkin:check
 bin/rails gherkin:list
