@@ -15,6 +15,6 @@ gem "yard", "~> 0.9"
 group :test do
   gem "capybara"
   gem "puma"
-  gem "rails", "~> 8.1.1"
+  gem "rails", "~> 8.1.4"
   gem "sqlite3"
 end
